@@ -1,2 +1,0 @@
-[teamcity]
-localhost   ansible_connection=local

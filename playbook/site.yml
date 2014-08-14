@@ -1,6 +1,7 @@
 ---
-- hosts: teamcity
-  
+- hosts: all
+  sudo: yes
+
   roles: 
-    - apt-packages
+    - yum-dependencies
     - teamcity-setup

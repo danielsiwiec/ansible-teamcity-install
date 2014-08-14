@@ -1,20 +1,26 @@
-#! /bin/sh
+#!/bin/bash
+#
+# chkconfig: 235 10 90
+# description: TeamCity startup script
+#
 
-# Set path to data
-export TEAMCITY_DATA_PATH="{{ teamcity_data_path }}"
+TEAMCITY_USER="{{ teamcity_user }}"
+TEAMCITY_DIR="{{ teamcity_installation_path }}"
+TEAMCITY_SERVER=bin/teamcity-server.sh
 
-# Carry out specific functions when asked to by the system
+TEAMCITY_DATA_PATH="{{ teamcity_data_path }}"
+
+. /etc/rc.d/init.d/functions
+
 case "$1" in
-  start)
-    echo "Starting teamcity "
-    start-stop-daemon --start -c {{teamcity_user}} --exec {{teamcity_installation_path}}/bin/runAll.sh start
+start)
+    sudo -u $TEAMCITY_USER -s -- sh -c "cd $TEAMCITY_DIR; TEAMCITY_DATA_PATH=$TEAMCITY_DATA_PATH $TEAMCITY_SERVER start"
     ;;
-  stop)
-    echo "Stopping teamcity"
-    start-stop-daemon --start -c {{teamcity_user}} --exec {{teamcity_installation_path}}/bin/runAll.sh stop
+stop)
+    sudo -u $TEAMCITY_USER -s -- sh -c "cd $TEAMCITY_DIR; TEAMCITY_DATA_PATH=$TEAMCITY_DATA_PATH $TEAMCITY_SERVER stop"
     ;;
-  *)
-    echo "Usage: /etc/init.d/teamcity {start|stop}"
+*)
+    echo "Usage: $0 {start|stop}"
     exit 1
     ;;
 esac

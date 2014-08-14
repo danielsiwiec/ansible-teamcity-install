@@ -15,6 +15,3 @@
 
 - name: Start teamcity
   service: name=teamcity state=started
-
-- name: Stop teamcity
-  service: name=teamcity state=stopped
